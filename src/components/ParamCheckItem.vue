@@ -54,7 +54,7 @@ export default defineComponent({
   padding-top: 1rem;
 }
 .text-green {
-  color: #34d399;
+  color: #25b882;
 }
 .text-red {
   color: #f87171;
