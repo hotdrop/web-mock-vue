@@ -57,7 +57,6 @@ export default defineComponent({
   flex-direction: column;
 }
 .text-label {
-  margin-bottom: 0.5rem;
   font-weight: 500;
 }
 .input-field {
@@ -91,6 +90,6 @@ export default defineComponent({
   color: #9ca3af;
 }
 .border-gray {
-  border-color: #d1d5db;
+  border-color: #a2a6ab;
 }
 </style>

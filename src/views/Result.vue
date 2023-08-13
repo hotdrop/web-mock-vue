@@ -1,39 +1,67 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import AppResultTabs from '../components/AppResultTabs.vue';
 import AppTextTitle from '../components/AppTextTitle.vue';
 import AppTextBody from '../components/AppTextBody.vue';
 import AppTextArea from '../components/AppTextArea.vue';
+import AppTextField from '../components/AppTextField.vue';
 import AppDivider from '../components/AppDivider.vue';
+import PostButton from '../components/PostButton.vue';
+
+import AppRequest from '@/models/AppRequest';
+import AppResponse from '@/models/AppResponse';
 
 export default defineComponent({
   components: {
+    AppResultTabs,
     AppTextTitle,
     AppTextBody,
     AppTextArea,
+    AppTextField,
+    PostButton,
   },
   setup() {
-    const successClass = ref('tab-success-select');
-    const errorClass = ref('tab-error-unselect');
-    const suspendClass = ref('tab-suspend-unselect');
-
+    // 成功、エラー、中断の各タブの選択処理
     const selectTab = ref('success');
+    
+    const route = useRoute();
+    const param = route.query[AppRequest.paramName] as string;
+    const appRequest = new AppRequest(param || '');
+    const appResponse = ref(new AppResponse(appRequest));
 
-    const setTab = (newTab: string) => {
-      selectTab.value = newTab;
-      successClass.value = newTab === 'success' ? 'tab-success-select' : 'tab-success-unselect';
-      errorClass.value = newTab === 'error' ? 'tab-error-select' : 'tab-error-unselect';
-      suspendClass.value = newTab === 'suspend' ? 'tab-suspend-select' : 'tab-suspend-unselect';
+    const postUrl = ref(AppResponse.successPostUrl);
+    const errorPostUrl = AppResponse.errorPostUrl;
+    const suspendPostUrl = AppResponse.suspendPostUrl;
+
+    const handleInputPostUrlChange = (event: Event) => {
+      const inputElement = event.target as HTMLInputElement;
+      postUrl.value = inputElement.value;
     };
+
+    const handleInputAppCodeChange = (event: Event) => {
+      const inputElement = event.target as HTMLInputElement;
+      const newResponse = appResponse.value.copyWith({ appCode: inputElement.value });
+      appResponse.value = newResponse;
+    };
+
+    const handleInputAppNameChange = (event: Event) => {
+      const inputElement = event.target as HTMLInputElement;
+      const newResponse = appResponse.value.copyWith({ appName: inputElement.value });
+      appResponse.value = newResponse;
+    }
 
     return {
       selectTab,
-      successClass,
-      errorClass,
-      suspendClass,
-      setTab,
+      appResponse,
+      postUrl,
+      errorPostUrl,
+      suspendPostUrl,
+      handleInputPostUrlChange,
+      handleInputAppCodeChange,
+      handleInputAppNameChange,
     }
   }
-  
 });
 </script>
 
@@ -42,21 +70,39 @@ export default defineComponent({
     <AppTextTitle label="結果確認" />
     <AppTextBody label="モックサイトはここで終了です。レスポンスの種類を選択してボタンを押してください。" />
     <div class="tab-container">
-      <button :class="successClass" @click="setTab('success')">成功</button>
-      <button :class="errorClass" @click="setTab('error')">エラー</button>
-      <button :class="suspendClass" @click="setTab('suspend')">中断</button>
+      <AppResultTabs v-model:selectedTab="selectTab" />
     </div>
     <AppDivider />
     <div v-if="selectTab === 'success'">
-      <!-- 成功のコンテンツ -->
+      <p class="response-edit-label success-text">レスポンスを編集する</p>
+      <AppTextField label="POST先のURL" :initValue="postUrl" color="blue" @change="handleInputPostUrlChange" />
+      <br />
+      <AppTextField label="テストコード" :initValue="`${appResponse.appCode}`" color="blue" @change="handleInputAppCodeChange" />
+      <br />
+      <AppTextField label="テストネーム" :initValue="`${appResponse.appName}`" color="blue" @change="handleInputAppNameChange" />
     </div>
     <div v-if="selectTab === 'error'">
-      <!-- エラーのコンテンツ -->
+      <p class="response-edit-label error-text">レスポンスを編集する</p>
+      <AppTextField label="POST先のURL" :initValue="errorPostUrl" color="red" @change="handleInputPostUrlChange" />
+      <br />
+      <AppTextField label="テストコード" :initValue="`${appResponse.appCode}`" color="red" @change="handleInputAppCodeChange" />
+      <br />
+      <AppTextField label="テストネーム" :initValue="`${appResponse.appName}`" color="red" @change="handleInputAppNameChange" />
     </div>
     <div v-if="selectTab === 'suspend'">
-      <!-- 中断のコンテンツ -->
+      <p class="response-edit-label suspend-text">レスポンスを編集する</p>
+      <AppTextField label="POST先のURL" :initValue="suspendPostUrl" color="gray" @change="handleInputPostUrlChange" />
+      <br />
+      <AppTextField label="テストコード" :initValue="`${appResponse.appCode}`" color="gray" @change="handleInputAppCodeChange" />
+      <br />
+      <AppTextField label="テストネーム" :initValue="`${appResponse.appName}`" color="gray" @change="handleInputAppNameChange" />
     </div>
-    <!-- 以下、共通のコンテンツ -->
+    <br />
+    <AppTextArea title="レスポンスのパラメータ" :label="`${appResponse.toShowString() || ''}`" />
+    <br />
+    <div class="post-button-div">
+      <PostButton label="終了する" :postUrl="postUrl" :paramStr="appResponse.toParamString()" />
+    </div>
   </main>
 </template>
 
@@ -72,71 +118,25 @@ export default defineComponent({
   margin: 16px;
 }
 
-.tab-success-select {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 1px solid #cbd5e0;
-  border-top-left-radius: 0.875rem;
-  border-bottom-left-radius: 0.875rem;
-  background-color: #60a5fa;
-  color: #ffffff;
+.response-edit-label {
+  font-weight: 700;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
-.tab-success-unselect {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 1px solid #cbd5e0;
-  border-top-left-radius: 0.875rem;
-  border-bottom-left-radius: 0.875rem;
-  background-color: #ffffff;
-  color: #000000;
+.post-button-div {
+  text-align: center;
 }
 
-.tab-error-select {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 1px solid #cbd5e0;
-  background-color: #ff0000;
-  color: #ffffff;
+.success-text {
+  color: #1d4ed8;
 }
 
-.tab-error-unselect {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 1px solid #cbd5e0;
-  background-color: #ffffff;
-  color: #000000;
+.error-text {
+  color: #ff6969;
 }
 
-.tab-suspend-select {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 1px solid #cbd5e0;
-  border-top-right-radius: 0.875rem;
-  border-bottom-right-radius: 0.875rem;
-  background-color: #808080;
-  color: #ffffff;
-}
-
-.tab-suspend-unselect {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border: 1px solid #cbd5e0;
-  border-top-right-radius: 0.875rem;
-  border-bottom-right-radius: 0.875rem;
-  background-color: #ffffff;
-  color: #000000;
+.suspend-text {
+  color: #a2a6ab;
 }
 </style>
