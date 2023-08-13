@@ -9,8 +9,7 @@ Android/iOSアプリを開発していると、たまに外部サービス連携
 実際にはこれだけではなく、POSTデータを受け取るためのサーバーが必要になります。  
 私はFirebaseを使うことが多いのでCloudFunctionsを使用するのが癖になっていますが、Cloudflare worksやAWSのLambdaなどが使えると幅が広がると思います。
 
-- 以下のリポジトリは同じものをNext.jsで作成
-https://github.com/hotdrop/web-mock
+- 以下のリポジトリは同じものをNext.jsで作成: https://github.com/hotdrop/web-mock
 
 # コマンド
 
