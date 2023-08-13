@@ -19,6 +19,7 @@ export default defineComponent({
     AppTextBody,
     AppTextArea,
     AppTextField,
+    AppDivider,
     PostButton,
   },
   setup() {

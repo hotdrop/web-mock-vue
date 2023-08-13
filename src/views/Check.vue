@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import AppTextTitle from '../components/AppTextTitle.vue';
 import AppTextBody from '../components/AppTextBody.vue';
 import AppTextArea from '../components/AppTextArea.vue';
+import AppDivider from '../components/AppDivider.vue';
 import ParamCheckItem from '../components/ParamCheckItem.vue';
 import AppRequest from '../models/AppRequest';
 
@@ -12,6 +13,7 @@ export default defineComponent({
     AppTextTitle,
     AppTextBody,
     AppTextArea,
+    AppDivider,
     ParamCheckItem,
   },
   setup() {
