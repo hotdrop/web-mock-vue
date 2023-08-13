@@ -28,7 +28,10 @@ export default defineComponent({
 
     const router = useRouter();
     const navigateToResult = () => {
-      router.push('/result');
+      router.push({ 
+        path: '/result',
+        query: appRequest.value.toQuery()
+      });
     };
 
     return {
