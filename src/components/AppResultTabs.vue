@@ -1,30 +1,36 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   props: {
-    selectedTab: String,
+    selectedTab: String
   },
   setup(props, { emit }) {
-    const successClass = ref(props.selectedTab === 'success' ? 'tab-success-select' : 'tab-success-unselect');
-    const errorClass = ref(props.selectedTab === 'error' ? 'tab-error-select' : 'tab-error-unselect');
-    const suspendClass = ref(props.selectedTab === 'suspend' ? 'tab-suspend-select' : 'tab-suspend-unselect');
+    const successClass = ref(
+      props.selectedTab === 'success' ? 'tab-success-select' : 'tab-success-unselect'
+    )
+    const errorClass = ref(
+      props.selectedTab === 'error' ? 'tab-error-select' : 'tab-error-unselect'
+    )
+    const suspendClass = ref(
+      props.selectedTab === 'suspend' ? 'tab-suspend-select' : 'tab-suspend-unselect'
+    )
 
     const setTab = (newTab: string) => {
-      emit('update:selectedTab', newTab);
-      successClass.value = newTab === 'success' ? 'tab-success-select' : 'tab-success-unselect';
-      errorClass.value = newTab === 'error' ? 'tab-error-select' : 'tab-error-unselect';
-      suspendClass.value = newTab === 'suspend' ? 'tab-suspend-select' : 'tab-suspend-unselect';
-    };
+      emit('update:selectedTab', newTab)
+      successClass.value = newTab === 'success' ? 'tab-success-select' : 'tab-success-unselect'
+      errorClass.value = newTab === 'error' ? 'tab-error-select' : 'tab-error-unselect'
+      suspendClass.value = newTab === 'suspend' ? 'tab-suspend-select' : 'tab-suspend-unselect'
+    }
 
     return {
       successClass,
       errorClass,
       suspendClass,
-      setTab,
+      setTab
     }
   }
-});
+})
 </script>
 
 <template>

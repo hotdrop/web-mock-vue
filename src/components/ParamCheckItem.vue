@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { defineComponent } from 'vue'
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default defineComponent({
   components: {
@@ -19,19 +19,19 @@ export default defineComponent({
   },
   computed: {
     result() {
-      return this.checkResult[0];
+      return this.checkResult[0]
     },
     detailLabel() {
-      return this.checkResult[1];
+      return this.checkResult[1]
     },
     icon() {
-      return this.result ? faCheckCircle : faTimesCircle;
+      return this.result ? faCheckCircle : faTimesCircle
     },
     iconColor() {
-      return this.result ? 'text-green' : 'text-red';
+      return this.result ? 'text-green' : 'text-red'
     }
   }
-});
+})
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from 'vue'
 
 export default defineComponent({
   props: {
@@ -16,7 +16,7 @@ export default defineComponent({
     const computedValue = computed(() => `[${props.title}]\n${props.label || ''}`)
     return { computedValue }
   }
-});
+})
 </script>
 
 <template>

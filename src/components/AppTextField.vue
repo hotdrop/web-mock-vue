@@ -1,48 +1,48 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import type { PropType } from 'vue';
+import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
 
 export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: true
     },
     initValue: {
       type: String,
-      required: true,
+      required: true
     },
     color: {
       type: String as PropType<'blue' | 'red' | 'gray'>,
-      required: true,
+      required: true
     },
     onChange: {
       type: Function as PropType<(event: Event) => void>,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     colorTypes() {
       return {
         blue: { textColor: 'text-blue', borderColor: 'border-blue' },
         red: { textColor: 'text-red', borderColor: 'border-red' },
-        gray: { textColor: 'text-gray', borderColor: 'border-gray' },
+        gray: { textColor: 'text-gray', borderColor: 'border-gray' }
       }
     },
     textColor() {
-      return this.colorTypes[this.color]?.textColor || this.colorTypes.gray.textColor;
+      return this.colorTypes[this.color]?.textColor || this.colorTypes.gray.textColor
     },
     borderColor() {
-      return this.colorTypes[this.color]?.borderColor || this.colorTypes.gray.borderColor;
-    },
-  },
-});
+      return this.colorTypes[this.color]?.borderColor || this.colorTypes.gray.borderColor
+    }
+  }
+})
 </script>
 
 <template>
   <div class="text-field-container">
     <label :class="['text-label', textColor]" v-text="label"></label>
-    <input 
+    <input
       class="input-field focus-outline-none focus-ring-2"
       :class="borderColor"
       :value="initValue"

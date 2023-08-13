@@ -1,68 +1,68 @@
 class AppRequest {
   // 英数字 10桁
-  appCode: string;
+  appCode: string
   // 全角 15文字
-  appName: string; 
+  appName: string
   // 数字のみ 5桁
-  appNumber: string; 
+  appNumber: string
   // 年月日 8桁
-  appDate: string;
+  appDate: string
   // 時刻 6桁
-  appTime: string;
+  appTime: string
   // 1か9のみ許容
-  appPattern: string;
+  appPattern: string
 
   // 分割する前の元のリクエストパラメータ
-  originalParamStr: string;
+  originalParamStr: string
   // リクエストの長さチェック
-  overviewMessage: string;
-  
-  static paramName = "param";
-  private readonly paramLength = 45;
+  overviewMessage: string
+
+  static paramName = 'param'
+  private readonly paramLength = 45
   // サンプルのパラメータ。モックWebアプリの動作確認をする場合などpostデータを使わない用のダミーパラメータ
   private readonly dummyMockParam = 'code123456マルチバイトテキスト　　　　　99999202307161250349'
 
   constructor(argParam: string = '') {
     let param = ''
     if (argParam.length === this.paramLength) {
-      this.originalParamStr = argParam;
-      this.overviewMessage = `正しいパラメータ長で受信しました。パラメータ長=${argParam.length}`;
-      param = argParam;
+      this.originalParamStr = argParam
+      this.overviewMessage = `正しいパラメータ長で受信しました。パラメータ長=${argParam.length}`
+      param = argParam
     } else if (argParam.length === 0) {
-      this.originalParamStr = this.dummyMockParam;
-      this.overviewMessage = 'パラメータが空なのでサンプルパラメータを設定します。';
-      param = this.dummyMockParam;
+      this.originalParamStr = this.dummyMockParam
+      this.overviewMessage = 'パラメータが空なのでサンプルパラメータを設定します。'
+      param = this.dummyMockParam
     } else {
-      this.originalParamStr = argParam;
-      this.overviewMessage = `受信したパラメータ長が正しくありません。パラメータ長=${argParam.length}`;
-      this.appCode = '';
-      this.appName = '';
-      this.appNumber = '';
-      this.appDate = '';
-      this.appTime = '';
-      this.appPattern = '';
-      return;
+      this.originalParamStr = argParam
+      this.overviewMessage = `受信したパラメータ長が正しくありません。パラメータ長=${argParam.length}`
+      this.appCode = ''
+      this.appName = ''
+      this.appNumber = ''
+      this.appDate = ''
+      this.appTime = ''
+      this.appPattern = ''
+      return
     }
 
-    this.appCode = param.substring(0, 10);
-    this.appName = param.substring(10, 25);
-    this.appNumber = param.substring(25, 30);
-    this.appDate = param.substring(30, 38);
-    this.appTime = param.substring(38, 44);
-    this.appPattern = param.substring(44, 45);
+    this.appCode = param.substring(0, 10)
+    this.appName = param.substring(10, 25)
+    this.appNumber = param.substring(25, 30)
+    this.appDate = param.substring(30, 38)
+    this.appTime = param.substring(38, 44)
+    this.appPattern = param.substring(44, 45)
   }
 
   toQuery() {
     return {
-      [AppRequest.paramName]: this.toBody(),
+      [AppRequest.paramName]: this.toBody()
     }
   }
 
   checkAppCode(): [boolean, string] {
     if (this.isAlphaNumeric(this.appCode)) {
-      return [true, 'チェックOK(半角英数字)'];
+      return [true, 'チェックOK(半角英数字)']
     } else {
-      return [false, `アプリコードは半角英数字のみ許容されています。value=${this.appCode}`];
+      return [false, `アプリコードは半角英数字のみ許容されています。value=${this.appCode}`]
     }
   }
 
@@ -73,18 +73,18 @@ class AppRequest {
 
   checkAppNumber(): [boolean, string] {
     if (this.isNumeric(this.appNumber)) {
-      return [true, 'チェックOK(数字のみ)'];
+      return [true, 'チェックOK(数字のみ)']
     } else {
-      return [false, `番号は数字のみ許容されています。value=${this.appNumber}`];
+      return [false, `番号は数字のみ許容されています。value=${this.appNumber}`]
     }
   }
 
   checkAppDate(): [boolean, string] {
     if (!this.isNumeric(this.appDate)) {
-      return [false, `年月日が数値ではありません。value={this.appDate}`];
+      return [false, `年月日が数値ではありません。value={this.appDate}`]
     }
 
-    const dateNum = parseInt(this.appDate);
+    const dateNum = parseInt(this.appDate)
     if (dateNum > 19700101 && dateNum < 21001231) {
       return [true, 'チェックOK(取り扱い可能な年月日か)']
     } else {
@@ -94,10 +94,10 @@ class AppRequest {
 
   checkAppTime(): [boolean, string] {
     if (!this.isNumeric(this.appTime)) {
-      return [false, `時刻が数値ではありません。value={this.appTime}`];
+      return [false, `時刻が数値ではありません。value={this.appTime}`]
     }
 
-    const timeNum = parseInt(this.appTime);
+    const timeNum = parseInt(this.appTime)
     if (timeNum > 0 && timeNum < 235959) {
       return [true, 'チェックOK(取り扱い可能な時刻か)']
     } else {
@@ -106,7 +106,7 @@ class AppRequest {
   }
 
   checkAppPattern(): [boolean, string] {
-    if (this.appPattern === "1" || this.appPattern === "9") {
+    if (this.appPattern === '1' || this.appPattern === '9') {
       return [true, 'チェックOK(1または9)']
     } else {
       return [false, `パターンが1または9ではありません。value=${this.appPattern}`]
@@ -114,17 +114,19 @@ class AppRequest {
   }
 
   private toBody(): string {
-    return this.appCode + this.appName + this.appNumber + this.appDate + this.appTime + this.appPattern;
+    return (
+      this.appCode + this.appName + this.appNumber + this.appDate + this.appTime + this.appPattern
+    )
   }
 
   private isAlphaNumeric(str: string): boolean {
-    const regexp = new RegExp('^[0-9A-Za-z]+$');
-    return regexp.test(str);
+    const regexp = new RegExp('^[0-9A-Za-z]+$')
+    return regexp.test(str)
   }
 
   private isNumeric(str: string): boolean {
-    return !isNaN(parseInt(str)) && isFinite(str as any);
+    return !isNaN(parseInt(str)) && isFinite(str as any)
   }
 }
 
-export default AppRequest;
+export default AppRequest
