@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -16,7 +16,7 @@ export default defineComponent({
       required: true
     }
   }
-})
+});
 </script>
 
 <template>
@@ -26,7 +26,7 @@ export default defineComponent({
   </form>
 </template>
 
-<style>
+<style scoped>
 .post-button {
   padding: 0.5rem 1rem;
   margin: 0.5rem;

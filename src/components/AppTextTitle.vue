@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -8,14 +8,14 @@ export default defineComponent({
       required: true
     }
   }
-})
+});
 </script>
 
 <template>
   <p class="text-title">{{ label }}</p>
 </template>
 
-<style>
+<style scoped>
 .text-title {
   font-size: 1.5rem;
   text-align: center;

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -16,14 +16,14 @@ export default defineComponent({
     const computedValue = computed(() => `[${props.title}]\n${props.label || ''}`)
     return { computedValue }
   }
-})
+});
 </script>
 
 <template>
   <textarea class="app-text-area" :value="computedValue" readonly rows="6" />
 </template>
 
-<style>
+<style scoped>
 .app-text-area {
   border: 2px solid #000;
   border-radius: 0.5rem;

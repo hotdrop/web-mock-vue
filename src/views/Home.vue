@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import AppTextTitle from '../components/AppTextTitle.vue'
-import AppTextBody from '../components/AppTextBody.vue'
+import { useRouter } from 'vue-router';
+import AppTextTitle from '../components/AppTextTitle.vue';
+import AppTextBody from '../components/AppTextBody.vue';
 
-const router = useRouter()
+const router = useRouter();
 
 const navigateToCheck = () => {
   router.push('/check')
-}
+};
 </script>
 
 <template>
