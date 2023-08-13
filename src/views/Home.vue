@@ -6,7 +6,7 @@ import AppTextBody from '../components/AppTextBody.vue';
 const router = useRouter();
 
 const navigateToCheck = () => {
-  router.push('/check')
+  router.push('/check');
 };
 </script>
 
@@ -28,16 +28,6 @@ const navigateToCheck = () => {
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-}
-
-.navigate-button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .navigate-button:hover {

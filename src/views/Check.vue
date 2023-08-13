@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import AppTextTitle from '../components/AppTextTitle.vue';
 import AppTextBody from '../components/AppTextBody.vue';
 import AppTextArea from '../components/AppTextArea.vue';
@@ -26,6 +26,11 @@ export default defineComponent({
     const checkAppTimeResult = computed(() => appRequest.value.checkAppTime());
     const checkAppPatternResult = computed(() => appRequest.value.checkAppPattern());
 
+    const router = useRouter();
+    const navigateToResult = () => {
+      router.push('/result');
+    };
+
     return {
       appRequest,
       checkAppCodeResult,
@@ -34,6 +39,7 @@ export default defineComponent({
       checkAppDateResult,
       checkAppTimeResult,
       checkAppPatternResult,
+      navigateToResult,
     }
   }
 });
@@ -55,6 +61,7 @@ export default defineComponent({
   </div>
   <AppDivider />
   <br />
+  <button @click="navigateToResult" class="navigate-button">次に進む</button>
 </template>
 
 <style scoped>
